@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Друзья {{ user.first_name }} {{ user.last_name }}{% endblock %}
+{% block styles %}{% endblock %}
+
+{% block main %}
+    <div>
+        {% if friends %}
+            <ul>
+                {% for row in friends %}
+                    <li>{{ row.friend.first_name }} {{ row.friend.last_name }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            У Вас пока нет друзей.
+        {% endif %}
+    </div>
+{% endblock %}
+{% block footer %}{% endblock %}
+{% block after-footer-scripts %}{% endblock %}
+

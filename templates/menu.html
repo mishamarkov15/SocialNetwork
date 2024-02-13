@@ -1,5 +1,5 @@
 <nav class="side-bar">
-    <a href="{% url 'home:profile' user.pk %}"  class="nav-item">Профиль</a>
+    <a href="{% url 'home:profile' %}"  class="nav-item">Профиль</a>
     <a class="nav-item">Сообщения</a>
-    <a class="nav-item">Мои друзья</a>
+    <a href="{% url 'friends:friends-list' %}" class="nav-item">Мои друзья</a>
 </nav>
