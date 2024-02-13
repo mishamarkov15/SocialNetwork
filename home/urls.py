@@ -5,5 +5,5 @@ from home.views import ProfileView
 app_name = 'home'
 
 urlpatterns = [
-    path('', ProfileView.as_view(), name='profile'),
+    path('<int:pk>/', ProfileView.as_view(), name='profile'),
 ]
