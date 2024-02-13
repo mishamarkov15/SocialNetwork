@@ -9,7 +9,7 @@
         {% if friends %}
             <ul>
                 {% for row in friends %}
-                    <li>{{ row.friend.first_name }} {{ row.friend.last_name }}</li>
+                    <li>{{ row.friend.get_full_name }}</li>
                 {% endfor %}
             </ul>
         {% else %}

@@ -14,4 +14,4 @@ class FriendListView(ListView):
     context_object_name = 'friends'
 
     def get_queryset(self):
-        return super().get_queryset()
+        return super().get_queryset().filter(user__pk=self.request.user.pk)
