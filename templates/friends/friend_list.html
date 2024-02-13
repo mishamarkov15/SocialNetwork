@@ -9,7 +9,7 @@
         {% if friends %}
             <ul>
                 {% for row in friends %}
-                    <li>{{ row.friend.get_full_name }}</li>
+                    <li><a href="{% url 'friends:profile' row.friend.pk %}">{{ row.friend.get_full_name }}</a></li>
                 {% endfor %}
             </ul>
         {% else %}
