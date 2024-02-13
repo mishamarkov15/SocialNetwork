@@ -6,7 +6,13 @@
 
 {% block main %}
     <div>
-        <h1>Привет мир!</h1>
+        <ul>
+            <li>Имя: {{ first_name }}</li>
+            <li>Фамилия: {{ last_name }}</li>
+            <li>Никнейм: {{ username }}</li>
+            <li>Почта: {{ email }}</li>
+
+        </ul>
     </div>
 {% endblock %}
 {% block footer %}{% endblock %}

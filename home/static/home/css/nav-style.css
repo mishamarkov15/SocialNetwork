@@ -1,0 +1,22 @@
+.side-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    padding: 20px;
+    font-size: 20px;
+}
+
+.nav-item {
+    background-color: whitesmoke;
+    border-radius: 16px;
+    padding: 12px 8px;
+    text-align: center;
+    -webkit-transition: all 0.3s ease 0s;
+    transition: all 0.3s ease 0s;
+}
+
+.nav-item:hover {
+    cursor: pointer;
+    background-color: antiquewhite;
+    box-shadow: 0 4px 20px navajowhite;
+}

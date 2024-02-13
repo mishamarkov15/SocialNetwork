@@ -1,0 +1,7 @@
+.content {
+    padding: 18px;
+    width: 1080px;
+    display: flex;
+    flex-direction: row;
+    gap: 30px;
+}
