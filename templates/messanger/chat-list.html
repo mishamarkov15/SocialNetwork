@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block title %}Чаты {{ user.get_full_name }}{% endblock %}
+{% block styles %}{% endblock %}
+
+{% block main %}
+    <div>
+        {% if chats %}
+            {% for chat in chats %}
+                <li>
+                    <a>
+                        {{ chat.friend.get_full_name }}
+                    </a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <a href="{% url 'friends:friends-list' %}">Найдите</a> себе друзей и начните общаться!
+        {% endif %}
+    </div>
+{% endblock %}
