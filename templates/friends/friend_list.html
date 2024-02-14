@@ -2,19 +2,38 @@
 
 {% load static %}
 {% block title %}Друзья {{ user.first_name }} {{ user.last_name }}{% endblock %}
-{% block styles %}{% endblock %}
+{% block styles %}
+    <link rel="stylesheet" type="text/css" href="{% static 'friends/css/friends-form.css' %}">
+{% endblock %}
 
 {% block main %}
-    <div>
-        {% if friends %}
-            <ul>
-                {% for row in friends %}
-                    <li><a href="{% url 'friends:profile' row.friend.pk %}">{{ row.friend.get_full_name }}</a></li>
-                {% endfor %}
-            </ul>
-        {% else %}
-            У Вас пока нет друзей.
-        {% endif %}
+    <div class="friends-list-wrapper">
+        <div>
+            <form class='friends-search-form' method="get">
+                <div>
+                    {{ form.to_search.errors }}
+                    {{ form.to_search }}
+                </div>
+                <button type="submit" class="btn-reset btn-search">Поиск</button>
+            </form>
+        </div>
+        <div>
+            {% if friends %}
+                <h2 class="friends-h2-title">Мои друзья</h2>
+                <ul class="list-reset friends-list">
+                    {% for row in friends %}
+                        <li class="friends-li">
+                            <a href="{% url 'friends:profile' row.friend.pk %}" class="friends-li-fullname">
+                                <div>{{ row.friend.get_full_name }}</div>
+                                <div>{{ row.friend.get_age }} лет</div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                У Вас пока нет друзей.
+            {% endif %}
+        </div>
     </div>
 {% endblock %}
 {% block footer %}{% endblock %}

@@ -1,0 +1,56 @@
+.friends-list-wrapper {
+    width: 100%;
+}
+
+.friends-search-form {
+    display: flex;
+    flex-direction: row;
+    gap: 15px;
+}
+
+.btn-search {
+    background: antiquewhite;
+    border-radius: 16px;
+    padding: 12px 8px;
+    border: 1px solid black;
+}
+
+.friends-h2-title {
+    background: skyblue;
+    border-radius: 10px;
+    padding: 12px 8px;
+    font-size: 22px;
+    margin-bottom: 20px;
+}
+
+.friends-list {
+    gap: 30px;
+    display: flex;
+    flex-direction: row;
+}
+
+.friends-li {
+    min-height: 100px;
+    width: 100%;
+}
+
+.friends-li a {
+    margin: 0;
+    background: lightcyan;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 16px 12px;
+    border-radius: 16px;
+
+}
+
+.friends-li:hover {
+    cursor: pointer;
+}
+
+.friends-li-fullname {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 500;
+}

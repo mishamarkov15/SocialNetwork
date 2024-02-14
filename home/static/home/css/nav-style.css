@@ -7,7 +7,7 @@
 }
 
 .nav-item {
-    background-color: whitesmoke;
+    background-color: lightblue;
     border-radius: 16px;
     padding: 12px 8px;
     text-align: center;
@@ -17,6 +17,6 @@
 
 .nav-item:hover {
     cursor: pointer;
-    background-color: antiquewhite;
-    box-shadow: 0 4px 20px navajowhite;
+    background-color: cornflowerblue;
+    box-shadow: 0 4px 20px lightblue;
 }

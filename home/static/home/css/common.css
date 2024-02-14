@@ -1,7 +1,23 @@
+html {
+    background: ghostwhite;
+}
+
+.col-1-10 {
+    width: 20%;
+    margin-right: auto;
+}
+
 .content {
     padding: 18px;
     width: 1080px;
     display: flex;
     flex-direction: row;
     gap: 30px;
+    background: white;
+    margin: 0 auto;
+    min-height: 1080px;
+}
+
+.main-block {
+    width: 80%;
 }
