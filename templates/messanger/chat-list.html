@@ -9,7 +9,7 @@
         {% if chats %}
             {% for chat in chats %}
                 <li>
-                    <a>
+                    <a href="{% url 'messanger:chat' room_name=chat.friend.username %}">
                         {{ chat.friend.get_full_name }}
                     </a>
                 </li>
