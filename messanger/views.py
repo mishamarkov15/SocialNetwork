@@ -31,5 +31,9 @@ class Chat(TemplateView):
         if path.endswith('/'):
             path = path[:-1]
         context['room_name'] = path.split('/')[-1]
-        context['receiver'] = Friends.objects.get(friend__username=context['room_name'])
+        user_id, friend_id = context['room_name'].split('t')
+        if self.request.user.id == int(friend_id):
+            user_id, friend_id = friend_id, user_id
+        context['sender'] = Friends.objects.get(user_id=user_id)
+        context['receiver'] = Friends.objects.get(user_id=friend_id)
         return context

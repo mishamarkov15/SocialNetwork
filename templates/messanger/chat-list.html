@@ -7,9 +7,10 @@
 {% block main %}
     <div>
         {% if chats %}
+            {% load messanger_extras %}
             {% for chat in chats %}
                 <li>
-                    <a href="{% url 'messanger:chat' room_name=chat.friend.username %}">
+                    <a href="{% url 'messanger:chat' room_name=chat.user.id|cat_room_name:chat.friend.id %}">
                         {{ chat.friend.get_full_name }}
                     </a>
                 </li>
