@@ -5,10 +5,10 @@
 
 {% block main %}
     <div>
-        <textarea cols="100" rows="20" id="chat-log"></textarea>
+        <textarea cols="80" rows="20" id="chat-log"></textarea>
     </div>
     <div>
-        <input id="chat-message-input" type="text" size="100" placeholder="Напишите сообщение...">
+        <input id="chat-message-input" type="text" size="80" placeholder="Напишите сообщение...">
         <input id="chat-message-submit" type="button" value="send">
     </div>
     {{ room_name|json_script:"room-name" }}
