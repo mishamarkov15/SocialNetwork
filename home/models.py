@@ -50,3 +50,37 @@ class MyUser(AbstractUser):
             return (datetime.date.today() - self.birth_date).days // 365
         else:
             return 0
+
+
+class Post(models.Model):
+    """
+    Модель для поста на стене
+    """
+
+    class Meta:
+        db_table = 'post'
+        verbose_name = 'Пост'
+        verbose_name_plural = 'Посты'
+
+    user_id = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='publisher')
+    content = models.TextField(max_length=4096, null=False)
+    created_timestamp = models.DateTimeField(auto_now_add=True)
+    views = models.BigIntegerField(default=0)
+
+
+class Like(models.Model):
+    """
+    Модель для оценки поста
+    """
+
+    class Meta:
+        db_table = 'like'
+        verbose_name = 'Оценка'
+        verbose_name_plural = 'Оценки'
+
+    user_id = models.ForeignKey(MyUser, on_delete=models.CASCADE, related_name='user_liker')
+    post_id = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='post')
+    type = models.CharField(max_length=10, choices=(
+        ('like', 'Нравится'),
+        ('dislike', 'Не нравится'),
+    ))

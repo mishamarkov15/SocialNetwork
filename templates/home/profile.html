@@ -11,8 +11,28 @@
             <li>Фамилия: {{ user.last_name }}</li>
             <li>Никнейм: {{ user.username }}</li>
             <li>Почта: {{ user.email }}</li>
-
         </ul>
+    </div>
+    <div>
+        <h2>Ваша лента</h2>
+        <form method="post">
+            {% csrf_token %}
+{#            <textarea id="post-textarea" rows="3" cols="80" placeholder="Что нового?"></textarea>#}
+            {{ form.content.errors }}
+            {{ form.content }}
+            <button type="submit" value="publish">Опубликовать</button>
+        </form>
+        {% if posts %}
+            <ul class="list-reset">
+                {% for post in posts %}
+                    <li>{{ post.created_timestamp }}: {{ post.content }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div>
+                Пока Вы не опубликовали ни одного поста. Пора сделать это!
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block footer %}{% endblock %}
