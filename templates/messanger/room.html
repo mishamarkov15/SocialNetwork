@@ -12,9 +12,10 @@
         <input id="chat-message-submit" type="button" value="send">
     </div>
     {{ room_name|json_script:"room-name" }}
-    {{ sender.user.username|json_script:"sender" }}
-    {{ receiver.user.username|json_script:"receiver" }}
-    {{ request.user.username|json_script:"username" }}
+    {{ sender.user.get_full_name|json_script:"full_name" }}
+    {{ sender.user.id|json_script:"sender_id" }}
+    {{ receiver.user.id|json_script:"receiver_id" }}
+    {{ request.user.id|json_script:"user_id" }}
 {#    {% if request.user.id == receiver.id %}#}
 {#        {{ "Вы"|json_script:"username" }}#}
 {#    {% else %}#}
@@ -25,9 +26,10 @@
 
     <script>
         const room_name = JSON.parse(document.getElementById("room-name").textContent);
-        const sender = JSON.parse(document.getElementById("sender").textContent);
-        const receiver = JSON.parse(document.getElementById("receiver").textContent);
-        const username = JSON.parse(document.getElementById("username").textContent);
+        const full_name = JSON.parse(document.getElementById("full_name").textContent);
+        const sender_id = JSON.parse(document.getElementById("sender_id").textContent);
+        const receiver_id = JSON.parse(document.getElementById("receiver_id").textContent);
+        const user_id = JSON.parse(document.getElementById("user_id").textContent);
         const chatSocket = new WebSocket(
             "ws://"
             + window.location.host
@@ -38,10 +40,10 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
-            if (data.sender === username) {
+            if (data.sender_id === user_id) {
                 document.querySelector('#chat-log').value += ("Вы: " + data.message + '\n');
             } else {
-                document.querySelector('#chat-log').value += (data.sender + ": " + data.message + '\n');
+                document.querySelector('#chat-log').value += (full_name + ": " + data.message + '\n');
             }
         }
 
@@ -61,8 +63,8 @@
             const message = messageInputDom.value;
             chatSocket.send(JSON.stringify({
                 'message': message,
-                'sender': sender,
-                'receiver': receiver,
+                'sender_id': sender_id,
+                'receiver_id': receiver_id,
             }));
             messageInputDom.value = '';
         }
