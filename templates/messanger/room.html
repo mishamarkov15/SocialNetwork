@@ -5,7 +5,28 @@
 
 {% block main %}
     <div>
-        <textarea cols="80" rows="20" id="chat-log"></textarea>
+        {% if message_history %}
+            <ul class="list-reset" id="chat-log">
+                {% for msg in message_history %}
+                    {% if msg.sender_id.id == request.user.id %}
+                        <li><b>Вы</b>: {{ msg.content }}</li>
+                    {% else %}
+                        <li><b>{{ msg.sender_id.get_full_name }}</b>: {{ msg.content }}</li>
+                    {% endif %}
+                {% endfor %}
+            </ul>
+        {% else %}
+            Отправьте первое сообщение!
+        {% endif %}
+
+        {#        <textarea cols="80" rows="20" id="chat-log" readonly>#}
+        {#{% if message_history %}#}
+        {#    {% for msg in message_history %}#}
+        {#        {{msg.sender_id.get_full_name }}: {{ msg.content }}#}
+        {#    {% endfor %}#}
+        {#{% else %}#}
+        {#    Отправьте первое сообщение!#}
+        {#{% endif %}</textarea>#}
     </div>
     <div>
         <input id="chat-message-input" type="text" size="80" placeholder="Напишите сообщение...">
@@ -16,10 +37,10 @@
     {{ sender.user.id|json_script:"sender_id" }}
     {{ receiver.user.id|json_script:"receiver_id" }}
     {{ request.user.id|json_script:"user_id" }}
-{#    {% if request.user.id == receiver.id %}#}
-{#        {{ "Вы"|json_script:"username" }}#}
-{#    {% else %}#}
-{#    {% endif %}#}
+    {#    {% if request.user.id == receiver.id %}#}
+    {#        {{ "Вы"|json_script:"username" }}#}
+    {#    {% else %}#}
+    {#    {% endif %}#}
 
 
     <div>Это чат с {{ receiver.friend.get_full_name }}</div>
@@ -40,11 +61,15 @@
 
         chatSocket.onmessage = function (e) {
             const data = JSON.parse(e.data);
+            let li = document.createElement("li");
             if (data.sender_id === user_id) {
-                document.querySelector('#chat-log').value += ("Вы: " + data.message + '\n');
+                li.appendChild(document.createTextNode("Вы" + ": " + data.message));
+                {#document.querySelector('#chat-log').value += ("Вы: " + data.message + '\n');#}
             } else {
-                document.querySelector('#chat-log').value += (full_name + ": " + data.message + '\n');
+                li.appendChild(document.createTextNode(full_name + ": " + data.message));
+                {#document.querySelector('#chat-log').value += (full_name + ": " + data.message + '\n');#}
             }
+            document.querySelector('#chat-log').appendChild(li);
         }
 
         chatSocket.onclose = function (e) {

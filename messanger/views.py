@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.views.generic import TemplateView
 
 from friends.models import Friends
+from messanger.models import Message
 
 
 class ChatsList(TemplateView):
@@ -36,4 +37,8 @@ class Chat(TemplateView):
             user_id, friend_id = friend_id, user_id
         context['sender'] = Friends.objects.get(user_id=user_id)
         context['receiver'] = Friends.objects.get(user_id=friend_id)
+
+
+        context['message_history'] = Message.objects.filter(sender_id__in=[user_id, friend_id]).order_by("sent_datetime")
+        print(f'history: {context["message_history"]}')
         return context
