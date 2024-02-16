@@ -35,10 +35,13 @@ class Chat(TemplateView):
         user_id, friend_id = context['room_name'].split('t')
         if self.request.user.id == int(friend_id):
             user_id, friend_id = friend_id, user_id
-        context['sender'] = Friends.objects.get(user_id=user_id)
-        context['receiver'] = Friends.objects.get(user_id=friend_id)
+        context['sender'] = Friends.objects.get(user_id=user_id, friend_id=friend_id)
+        context['receiver'] = Friends.objects.get(user_id=friend_id, friend_id=user_id)
 
+        context['message_history'] = Message.objects.filter(sender_id=user_id, receiver_id=friend_id).order_by(
+            "sent_datetime") | \
+                                     Message.objects.filter(receiver_id=user_id, sender_id=friend_id).order_by(
+                                         "sent_datetime")
 
-        context['message_history'] = Message.objects.filter(sender_id__in=[user_id, friend_id]).order_by("sent_datetime")
         print(f'history: {context["message_history"]}')
         return context

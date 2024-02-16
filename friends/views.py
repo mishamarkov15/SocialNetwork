@@ -1,3 +1,4 @@
+from django.core.handlers.wsgi import WSGIRequest
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 
@@ -21,14 +22,21 @@ class FriendListView(ListView):
         context = self.get_context_data(**kwargs)
         form = forms.FriendSearchForm(self.request.GET)
         context['form'] = form
+        if form.is_valid() and form.cleaned_data['to_search']:
+            context['new_users'] = MyUser.objects.filter(username__contains=form.cleaned_data['to_search']) | \
+                                   MyUser.objects.filter(first_name__contains=form.cleaned_data['to_search']) | \
+                                   MyUser.objects.filter(last_name__contains=form.cleaned_data['to_search'])
         return render(self.request, self.template_name, context)
 
     def get_queryset(self):
         form = forms.FriendSearchForm(self.request.GET)
         if form.is_valid() and form.cleaned_data['to_search']:
-            print('found_form query')
             return super().get_queryset().filter(user__pk=self.request.user.pk,
-                                                 friend__pk=form.cleaned_data['to_search'])
+                                                 friend__username__contains=form.cleaned_data['to_search']) | \
+                super().get_queryset().filter(user__pk=self.request.user.pk,
+                                              friend__first_name__contains=form.cleaned_data['to_search']) | \
+                super().get_queryset().filter(user__pk=self.request.user.pk,
+                                              friend__last_name__contains=form.cleaned_data['to_search'])
         else:
             return super().get_queryset().filter(user__pk=self.request.user.pk)
 
@@ -46,3 +54,38 @@ class UserProfileView(DetailView):
     template_name = 'friends/user_profile.html'
     model = MyUser
     context_object_name = 'user'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        try:
+            context['is_friend'] = Friends.objects.get(
+                user_id=self.request.user.id,
+                friend_id=self.object.id
+            )
+        except Exception as err:
+            context['is_friend'] = None
+        return context
+
+    def post(self, request: WSGIRequest, *args, **kwargs):
+        self.object = self.get_object()
+        btn = self.request.POST.get('btn', None)
+        if btn:
+            if btn == 'delete':
+                Friends.objects.get(
+                    user=MyUser.objects.get(id=self.request.user.pk),
+                    friend=MyUser.objects.get(id=self.object.id)
+                ).delete()
+                Friends(
+                    friend=MyUser.objects.get(id=self.request.user.pk),
+                    user=MyUser.objects.get(id=self.object.id)
+                ).delete()
+            elif btn == 'add':
+                Friends(
+                    user=MyUser.objects.get(id=self.request.user.pk),
+                    friend=MyUser.objects.get(id=self.object.id)
+                ).save()
+                Friends(
+                    friend=MyUser.objects.get(id=self.request.user.pk),
+                    user=MyUser.objects.get(id=self.object.id)
+                ).save()
+        return render(self.request, self.template_name, self.get_context_data(**kwargs))

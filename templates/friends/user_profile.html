@@ -11,6 +11,16 @@
     <div>
         <span>Имя: {{ user.get_full_name }}</span>
     </div>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {% if is_friend %}
+                <button type="submit" value="delete" name="btn">Удалить из друзей</button>
+            {% else %}
+                <button type="submit" value="add" name="btn">Добавить в друзья</button>
+            {% endif %}
+        </form>
+    </div>
 {% endblock %}
 {% block footer %}{% endblock %}
 {% block after-footer-scripts %}{% endblock %}

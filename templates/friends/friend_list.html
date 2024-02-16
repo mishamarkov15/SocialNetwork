@@ -18,8 +18,8 @@
             </form>
         </div>
         <div>
+            <h2 class="friends-h2-title">Мои друзья</h2>
             {% if friends %}
-                <h2 class="friends-h2-title">Мои друзья</h2>
                 <ul class="list-reset friends-list">
                     {% for row in friends %}
                         <li class="friends-li">
@@ -31,9 +31,24 @@
                     {% endfor %}
                 </ul>
             {% else %}
-                У Вас пока нет друзей.
+                Друзей не найдено.
             {% endif %}
         </div>
+        {% if new_users %}
+            <div>
+                <h2 class="friends-h2-title">Возможные друзья</h2>
+                <ul class="list-reset friends-list">
+                    {% for nu in new_users %}
+                        <li class="friends-li">
+                            <a href="{% url 'friends:profile' nu.pk %}" class="friends-li-fullname">
+                                <div>{{ nu.get_full_name }} | {{ nu.username }}</div>
+                                <div>{{ nu.get_age }} лет</div>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
 {% block footer %}{% endblock %}
